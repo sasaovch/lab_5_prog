@@ -17,7 +17,6 @@ public class ParsingJSON {
     public boolean serialize(SpaceMarineCollection collection, File file) throws IOException {
         Gson gson = new GsonBuilder()
             .setPrettyPrinting()
-            .registerTypeAdapter(java.time.LocalDate.class, new DateSerializer())
             .registerTypeAdapter(SpaceMarineCollection.class, new SpaceMarineCollectionSerializer())
             .registerTypeAdapter(SpaceMarine.class, new SpaceMarineSerializer())
             .create();
@@ -29,7 +28,6 @@ public class ParsingJSON {
 
     public SpaceMarineCollection deSerialize(String strData) throws JsonSyntaxException {
         Gson g = new GsonBuilder()
-            .registerTypeAdapter(java.time.LocalDate.class, new DateDeserializer())
             .registerTypeAdapter(SpaceMarineCollection.class, new SpaceMarineCollectionDeserializer())
             .registerTypeAdapter(SpaceMarine.class, new SpaceMarineDeserializer())
             .registerTypeAdapter(Coordinates.class, new CoordinatesDeserializer())

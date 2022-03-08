@@ -2,6 +2,7 @@ package lab5.client.utility;
 
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -32,7 +33,7 @@ public class SpaceMarineDeserializer implements JsonDeserializer<SpaceMarine> {
 			spMar.setHeartCount(jsonObject.get("heartCount").getAsInt());
 			spMar.setTime((LocalDateTime) context.deserialize(jsonObject.get("creationDateTime"), LocalDateTime.class));
 			JsonElement loyal = jsonObject.get("loyal");
-			if ((loyal == null) || (loyal.getAsString().equals(""))) {
+			if ((Objects.equals(loyal, null)) || (loyal.getAsString().equals(""))) {
 				spMar.setLoyal(null);
 			} else {
 				spMar.setLoyal(Boolean.parseBoolean(loyal.getAsString()));

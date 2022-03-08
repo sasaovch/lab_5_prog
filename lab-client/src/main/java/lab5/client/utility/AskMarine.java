@@ -17,19 +17,12 @@ import lab5.client.exceptions.IncorrectDataOfFileException;
  * Asks a user a Marine's value.
  */
 public class AskMarine {
-    private final InputManager console;
+    private final InputManager inputManager;
     private final IOManager ioManager;
 
-    public AskMarine(InputManager console, IOManager ioManager) {
-        this.console = console;
+    public AskMarine(InputManager inputManager, IOManager ioManager) {
+        this.inputManager = inputManager;
         this.ioManager = ioManager;
-    }
-
-    /**
-     * @return Console-object
-     */
-    public InputManager getConsole() {
-        return console;
     }
 
     /**
@@ -41,9 +34,11 @@ public class AskMarine {
      */
     public String askName() throws IOException, IncorrectDataOfFileException {
         String name;
-        if (console.getStatus()) {
-            name = asker(arg -> arg, arg -> ((String) arg).length() > 0,  "Enter name (String)",
-            "The string must not be empty.", false);
+        if (!inputManager.getStatusFile()) {
+            name = asker(arg -> arg, 
+                         arg -> ((String) arg).length() > 0,  
+                         "Enter name (String)",
+                         "The string must not be empty.", false);
         } else {
             name = ioManager.readLine().trim();
                 if (name.equals("")) {
@@ -64,12 +59,14 @@ public class AskMarine {
     public Coordinates askCoordinates() throws IOException, IncorrectDataOfFileException, IncorrectData {
         double coordinateX = 0;
         Long coordinateY = null;
-        if (console.getStatus()) {
-            coordinateX = asker(Double::parseDouble, arg -> true, 
+        if (!inputManager.getStatusFile()) {
+            coordinateX = asker(Double::parseDouble, 
+                                arg -> true, 
                                 "Enter coordinates: X (double)", 
                                 "Incorrect input. X must be double.", 
                                 false);
-            coordinateY = asker(Long::parseLong, arg -> true, 
+            coordinateY = asker(Long::parseLong, 
+                                arg -> true, 
                                 "Enter coordinates: Y (Long)", 
                                 "Incorrect input. Y must be Long and not null.", 
                                 false);
@@ -94,19 +91,20 @@ public class AskMarine {
      */
     public Integer askHealth() throws IOException, IncorrectDataOfFileException{
         Integer health;
-        if (console.getStatus()) {
-            health = asker(Integer::parseInt, arg -> ((Integer) arg) > 0, 
+        if (!inputManager.getStatusFile()) {
+            health = asker(Integer::parseInt, 
+                           arg -> ((Integer) arg) > 0, 
                            "Enter the level of health (Integer)",
                            "Health must be Integer, not null and greater than zero.", 
                            false);
         } else {
             try {
                 health = Integer.parseInt(ioManager.readLine());
-                if (health <= 0) {
-                   throw new NumberFormatException();
-                }
             } catch (NumberFormatException e) {
                 throw new IncorrectDataOfFileException();
+            }
+            if (health <= 0) {
+               throw new IncorrectDataOfFileException();
             }
         }
         return health;
@@ -121,11 +119,11 @@ public class AskMarine {
      */
     public Integer askHeartCount() throws IOException, IncorrectDataOfFileException{
         Integer heartCount;
-        if (console.getStatus()) {
+        if (!inputManager.getStatusFile()) {
             heartCount = asker(Integer::parseInt, 
                                arg -> 1 <= ((Integer) arg) && arg <= 3, 
                                "Enter heart count: from 1 to 3 (Integer)",
-                               "Heartcount must be form 1 to 3 (Integer).", 
+                               "Heartcount must be form 1 to 3 (Integer)", 
                                false);
         } else {
             try {
@@ -149,19 +147,20 @@ public class AskMarine {
      */
     public Boolean askLoyal() throws IOException, IncorrectDataOfFileException {
         Boolean loyal;
-        if (console.getStatus()) {
+        if (!inputManager.getStatusFile()) {
                 loyal = asker(arg -> {
                     if (!(arg.equals("false") || arg.equals("true") || arg.equals(""))) {
-                        throw new NumberFormatException();}
-                    return Boolean.parseBoolean(arg);}
-                , arg -> true, 
-
+                        throw new NumberFormatException();
+                    }
+                    return Boolean.parseBoolean(arg);
+                                    }, 
+                              arg -> true, 
                               "Enter loyal: true, false or null(empty line)",
                               "Incorrect input - loyal is only true, false or null(empty line).",
                               true);
         } else {
             String str = ioManager.readLine().trim().toLowerCase();
-            if ((str.equals("true")) || (str.equals("false")) || (str.equals(""))){
+            if ((str.equals("true")) || (str.equals("false")) || (str.equals(""))) {
                 if (str.equals("")) {
                     loyal = null;
                 } else {
@@ -183,8 +182,9 @@ public class AskMarine {
      */
     public AstartesCategory askCategory() throws IOException, IncorrectDataOfFileException {
         AstartesCategory category;
-        if (console.getStatus()) {
-                category = asker(arg -> AstartesCategory.valueOf(arg.toUpperCase()), arg -> true, 
+        if (!inputManager.getStatusFile()) {
+                category = asker(arg -> AstartesCategory.valueOf(arg.toUpperCase()), 
+                                 arg -> true, 
                                  "Enter category: " + AstartesCategory.listOfCategory(), 
                                  "The category is not in the list.", 
                                  false);
@@ -211,17 +211,17 @@ public class AskMarine {
     public Chapter askChapter() throws IOException, IncorrectDataOfFileException, IncorrectData {
         String name, parentLegion, world;
         long marinesCount;
-        if (console.getStatus()) {
+        if (!inputManager.getStatusFile()) {
             name = asker(arg -> arg, arg -> true, "Enter name of chapter, empty line if chapter is null", 
                          "", true);
             if (!Objects.equals(name, null)) {
                 parentLegion = asker(arg -> arg, arg -> true, "Enter parent Legion of chapter", 
-                                    "", false);
-            marinesCount = asker(Long::parseLong, arg -> 0 < ((Long) arg) && ((Long) arg) <= 1000, 
-                                "Enter marines count of chapter: from 1 to 1000 (Integer)", 
-                                "Marines count must be Integer, not null and from 1 to 1000.", false);
-            world = asker(x -> x, arg -> ((String) arg).length() > 0,  "Enter name (String)",
-                          "The string must not be empty.", false);
+                                     "", false);
+                marinesCount = asker(Long::parseLong, arg -> 0 < ((Long) arg) && ((Long) arg) <= 1000, 
+                                     "Enter marines count of chapter: from 1 to 1000 (Integer)", 
+                                     "Marines count must be Integer, not null and from 1 to 1000.", false);
+                world = asker(x -> x, arg -> ((String) arg).length() > 0,  "Enter name (String)",
+                              "The string must not be empty.", false);
             } else {
                 return null;
             }
@@ -235,11 +235,10 @@ public class AskMarine {
             if ((0 > marinesCount) || (marinesCount > 1000)) {
                 throw new IncorrectDataOfFileException();
             }
-            world = ioManager.readLine();
+            world = ioManager.readLine().trim();
             if (world.equals("")) {
                 throw new IncorrectDataOfFileException();
             }
-            world = world.trim();
         }
         Chapter chapter = new Chapter(name, parentLegion, marinesCount, world);
         return chapter;

@@ -41,6 +41,8 @@ public class ExecuteScriptCommand extends Command {
         File file = new File(filename);
         try{
             if (file.exists() && !currentFiles.contains(file)) {
+                ioManager.println("Started to execute script: " + file.getName());
+                ioManager.println("------------------------------------------");
                 BufferedReader newReader = new BufferedReader(new FileReader(file));
                 currentFiles.push(file);
                 previosReaders.push(ioManager.getBufferedReader());
@@ -48,19 +50,22 @@ public class ExecuteScriptCommand extends Command {
                 inputManager.turnOnFile();
                 inputManager.run();
                 ioManager.close();
+                currentFiles.pop();
                 ioManager.setBufferReader(previosReaders.pop());
                 inputManager.turnOffFile();
             } else if (!file.exists()) {
                 ioManager.printerr("File doesn't exist.");
                 return false;
             } else if(currentFiles.contains(file)) {
-                ioManager.printerr("The file was not executed due to recursion");
+                ioManager.printerr("The file was not executed due to recursion.");
                 return false;
             }
-        } catch (IncorrectDataOfFileException e) {
+        } catch (IncorrectDataOfFileException | NullPointerException e) {
             ioManager.printerr("Incorrect data of file.");
             return false;
         }
+        ioManager.println("------------------------------------------");
+        ioManager.println("Finished to execute script: " + file.getName());
         return true;
     }
 }

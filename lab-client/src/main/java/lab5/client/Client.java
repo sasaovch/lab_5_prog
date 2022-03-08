@@ -38,8 +38,8 @@ public final class Client {
      * @throws IncorrectData
      */
     public static void main(String[] args) throws JsonSyntaxException, IOException, NoSuchElementException, IncorrectDataOfFileException, IncorrectData {
-        //String variablePath = System.getenv("variablePath");
-        // if (Objects.equals(variablePath, null)){
+        // String path = System.getenv("path");
+        // if (Objects.equals(path, null)){
         //     System.out.println("There is no such variable");
         //     return;
         // }        
@@ -47,10 +47,9 @@ public final class Client {
         PrintWriter writer = new PrintWriter(System.out, true);
         IOManager ioManager = new IOManager(reader, writer, "$");
         ParsingJSON pars = new ParsingJSON();
-        ioManager.println("Enter file path");
+        ioManager.println("Enter path for file.");
         ioManager.prompt();
-        File file = new File(ioManager.readLine());
-        // HashSet<SpaceMarine> spMarColl = pars.deSerialize(ioManager.readfile(ioManager.readLine()));
+        File file = new File(ioManager.readLine()); //ioManager.readLine()
         try{
             SpaceMarineCollection collection = pars.deSerialize(ioManager.readfile(file));
             if (Objects.equals(collection, null)) {

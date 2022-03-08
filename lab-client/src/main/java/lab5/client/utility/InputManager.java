@@ -30,8 +30,8 @@ public class InputManager {
     /**
      * @return statusInput of input: true - console-mode, false - file-mode.
      */
-    public Boolean getStatus() {
-        return statusInput;
+    public Boolean getStatusFile() {
+        return statusFile;
     }
 
     /**

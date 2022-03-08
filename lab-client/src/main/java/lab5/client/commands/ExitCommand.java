@@ -27,7 +27,7 @@ public class ExitCommand extends Command {
             ioManager.printerr("Incorrect input. Right: '" + name + "'.");
             return false;
         }
-        ioManager.print("Good Buy!\n\\(?_?)/");
+        ioManager.println("Good Buy!\n\\(?_?)/");
         inputManager.turnOffInput();
         return true;
     }
