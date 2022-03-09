@@ -43,12 +43,12 @@ public final class Client {
             System.out.println("There is no such variable");
             return;
         }        
+        ParsingJSON pars = new ParsingJSON();
+        File file = new File(filePath);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter writer = new PrintWriter(System.out, true);
         IOManager ioManager = new IOManager(reader, writer, "$");
-        ParsingJSON pars = new ParsingJSON();
-        File file = new File(filePath);
-        try{
+        try {
             SpaceMarineCollection collection = pars.deSerialize(ioManager.readfile(file));
             if (Objects.equals(collection, null)) {
                 ioManager.printerr("Incorrect data in file for parsing.");

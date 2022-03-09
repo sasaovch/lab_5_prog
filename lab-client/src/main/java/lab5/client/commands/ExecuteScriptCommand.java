@@ -39,17 +39,15 @@ public class ExecuteScriptCommand extends Command {
     @Override
     public boolean run(String filename) throws IOException, NoSuchElementException, IncorrectData  {
         File file = new File(filename);
-        try{
+        try (BufferedReader newReader = new BufferedReader(new FileReader(file))) { 
             if (file.exists() && !currentFiles.contains(file)) {
                 ioManager.println("Started to execute script: " + file.getName());
                 ioManager.println("------------------------------------------");
-                BufferedReader newReader = new BufferedReader(new FileReader(file));
                 currentFiles.push(file);
                 previosReaders.push(ioManager.getBufferedReader());
                 ioManager.setBufferReader(newReader);
                 inputManager.turnOnFile();
                 inputManager.run();
-                ioManager.close();
                 currentFiles.pop();
                 ioManager.setBufferReader(previosReaders.pop());
                 inputManager.turnOffFile();

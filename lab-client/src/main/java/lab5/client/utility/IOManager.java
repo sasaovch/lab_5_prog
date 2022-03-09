@@ -57,7 +57,6 @@ public class IOManager {
      * @throws IOException If something goes wrong with file.
      */
     public  String readLine() throws IOException {
-        
         return reader.readLine();
     }
 
@@ -67,11 +66,11 @@ public class IOManager {
         if (!file.exists()) {
             throw new FileNotFoundException();
         } else {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
                 while ((line = bufferedReader.readLine()) != null) {
                     strData.append(line);
                 }
-            bufferedReader.close();
+            }
         }
         return strData.toString();
     }
