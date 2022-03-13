@@ -34,7 +34,7 @@ public class PrintDescendingCommand extends Command {
             return true;
         }
         List<SpaceMarine> list = spaceMarineCollection.sortCollection();
-        for(int i = list.size() - 1; i >= 0; i--)
+        for (int i = list.size() - 1; i >= 0; i--)
             ioManager.println(list.get(i));
         return true;
     }

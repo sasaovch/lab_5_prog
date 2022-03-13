@@ -1,8 +1,5 @@
 package lab5.client.commands;
 
-import java.util.Objects;
-
-
 import lab5.client.data.SpaceMarine;
 import lab5.client.utility.IOManager;
 import lab5.client.utility.SpaceMarineCollection;
@@ -23,25 +20,21 @@ public class CountByLoyalCommand extends Command {
     /**
      * Executes the command.
      * @return Command exit status.
+     * @throws SecurityException
+     * @throws NoSuchFieldException
      */
     @Override
     public boolean run(String strLoyal) {
-            Boolean loyal;
-            if (strLoyal.equals("")) {
-                loyal = null;
-            } else if (!(strLoyal.equals("true") || strLoyal.equals("false"))) {
-                ioManager.printerr("The value of Loyal isn't correct (true, false, null - empty line)");
-                return false;
-            } else {
-                loyal = Boolean.parseBoolean(strLoyal);
-            }
-            int count = 0;
-            for (SpaceMarine thatSpaceMarine : spaceMarineCollection.getCollection()) {
-                if (Objects.equals(thatSpaceMarine.getLoyal(), loyal)) {
-                    count += 1;
-                }
-            }
-            ioManager.println("Number of elements: " + count);
-            return true;
+        Boolean loyal;
+        if (strLoyal.equals("")) {
+            loyal = null;
+        } else if (!(strLoyal.equals("true") || strLoyal.equals("false"))) {
+            ioManager.printerr("The value of Loyal isn't correct (true, false, null - empty line)");
+            return false;
+        } else {
+            loyal = Boolean.parseBoolean(strLoyal);
+        }
+        ioManager.println("Number of elements: " + spaceMarineCollection.countBySomeThing(SpaceMarine::getLoyal, loyal));
+        return true;
     }
 }

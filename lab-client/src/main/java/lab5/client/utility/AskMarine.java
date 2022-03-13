@@ -155,8 +155,8 @@ public class AskMarine {
                     return Boolean.parseBoolean(arg);
                                     }, 
                               arg -> true, 
-                              "Enter loyal: true, false or null(empty line)",
-                              "Incorrect input - loyal is only true, false or null(empty line).",
+                              "Enter loyal: true, false or null - empty line.",
+                              "Incorrect input - loyal is only true, false or null - empty line.",
                               true);
         } else {
             String str = ioManager.readLine().trim().toLowerCase();
@@ -244,18 +244,18 @@ public class AskMarine {
         return chapter;
     }
 
-    /**
-     * Asks a user the Marine's ID.
-     * @return Marine's ID.
-     * @throws IOException If something goes wrong with reading file.
-     */
-    public Long askId() throws IOException { 
-        Long id = null;
-            id = asker(Long::parseLong, arg -> true, "Enter ID - long", 
-            "Incorrect input: ID is long.", 
-            false);
-            return id;
-    }
+    // /**
+    //  * Asks a user the Marine's ID.
+    //  * @return Marine's ID.
+    //  * @throws IOException If something goes wrong with reading file.
+    //  */
+    // public Long askId() throws IOException { 
+    //     Long id = null;
+    //         id = asker(Long::parseLong, arg -> true, "Enter ID - long", 
+    //         "Incorrect input: ID is long.", 
+    //         false);
+    //         return id;
+    // }
 
     /**
      * Asks a user the Marine.
@@ -273,7 +273,7 @@ public class AskMarine {
         Boolean loyal = askLoyal();
         AstartesCategory category = askCategory();
         Chapter chapter = askChapter();
-        return new SpaceMarine(name, SpaceMarine.generateNextId(), coordinates, LocalDateTime.now(), health, heartCount, loyal, category, chapter);
+        return new SpaceMarine(name, coordinates, LocalDateTime.now(), health, heartCount, loyal, category, chapter);
     }
 
     public <T> T asker(Function<String, T> function,

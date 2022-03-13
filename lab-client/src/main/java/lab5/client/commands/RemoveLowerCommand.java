@@ -1,9 +1,7 @@
 package lab5.client.commands;
 
 import java.io.IOException;
-import java.util.Iterator;
 
-import lab5.client.data.SpaceMarine;
 import lab5.client.exceptions.IncorrectDataOfFileException;
 import lab5.client.utility.AskMarine;
 import lab5.client.utility.IOManager;
@@ -38,17 +36,7 @@ public class RemoveLowerCommand extends Command {
             return false;
         }
         Integer specifiedHealth = asker.askHealth();
-        boolean check = false;
-        Iterator<SpaceMarine> spaceMarColIterator = spaceMarineCollection.getCollection().iterator();
-        SpaceMarine removeSpac;
-        while (spaceMarColIterator.hasNext()) {
-            removeSpac = spaceMarColIterator.next();
-            if (removeSpac.getHealth() < specifiedHealth) {
-                spaceMarColIterator.remove();
-                check = true;
-            }
-        }
-        if (check) {
+        if (spaceMarineCollection.removeIf(spMar -> spMar.getHealth() < specifiedHealth)) {
             ioManager.println("All items have been successfully deleted.");
         } else {
             ioManager.println("No element has been deleted.");

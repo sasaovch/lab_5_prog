@@ -18,12 +18,7 @@ import lab5.client.utility.*;
 
 public final class Client {
 
-    static String ap;
-
-    private Client() {
-        throw new UnsupportedOperationException("This is an utility class and can not be instantiated");
-    }
-
+    private Client() {}
     
     /**
      * Main application class. Creates all instances and runs the program.
@@ -37,18 +32,19 @@ public final class Client {
      * @throws NoSuchElementException
      * @throws IncorrectData
      */
-    public static void main(String[] args) throws JsonSyntaxException, IOException, NoSuchElementException, IncorrectDataOfFileException, IncorrectData {
-        String filePath = System.getenv("filePath");
-        if (Objects.equals(filePath, null)){
-            System.out.println("There is no such variable");
-            return;
-        }        
+    public static void main(String[] args) throws JsonSyntaxException, NoSuchElementException, IncorrectDataOfFileException, IncorrectData {
+        // String filePath = System.getenv("filePath");
+        // if (Objects.equals(filePath, null)){
+        //     System.out.println("There is no such variable \"filePath\"");
+        //     return;
+        // }        
         ParsingJSON pars = new ParsingJSON();
-        File file = new File(filePath);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter writer = new PrintWriter(System.out, true);
         IOManager ioManager = new IOManager(reader, writer, "$");
+        ioManager.prompt();
         try {
+            File file = new File(ioManager.readLine());
             SpaceMarineCollection collection = pars.deSerialize(ioManager.readfile(file));
             if (Objects.equals(collection, null)) {
                 ioManager.printerr("Incorrect data in file for parsing.");
@@ -75,7 +71,7 @@ public final class Client {
             commands.addCommand("execute_script", new ExecuteScriptCommand(ioManager, inputManager));
             inputManager.run();
         } catch (IOException e) {
-            ioManager.printerr("Uppp... Something went wrong.");
-        } 
+            ioManager.printerr("File isn't exist or invalid user rights.");
+        }
     }
 }

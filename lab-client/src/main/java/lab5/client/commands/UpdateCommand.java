@@ -33,7 +33,6 @@ public class UpdateCommand extends Command {
      */
     @Override
     public boolean run(String str) throws IOException, IncorrectDataOfFileException, IncorrectData {
-        SpaceMarine changeMarine = null;
         Long id;
         try {
             id = Long.parseLong(str);
@@ -45,20 +44,14 @@ public class UpdateCommand extends Command {
             ioManager.printerr("There are no such element in the collection.");
             return false;
         }
-        for (SpaceMarine spaceMarine : spaceMarineCollection.getCollection()) {
-            if (id.equals(spaceMarine.getID())) {
-                changeMarine = spaceMarine;
-                break;
-            }
-        }
+        SpaceMarine changeMarine = spaceMarineCollection.findByID(id);
         if (changeMarine == null) {
             ioManager.printerr("Id is not correct.");
             return false;
         }
         SpaceMarine newMarine = asker.askMarine();
         newMarine.setID(changeMarine.getID());
-        spaceMarineCollection.removeElement(changeMarine);
-        spaceMarineCollection.addElement(newMarine);
+        spaceMarineCollection.updateSpaceMarine(changeMarine, newMarine);
         ioManager.println("Marine has been successfully updated.");
         return true;
     }

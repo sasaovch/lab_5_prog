@@ -30,7 +30,7 @@ public class RemoveByIdCommand extends Command {
             ioManager.printerr("Id is not correct.");
             return false;
         }
-            if (spaceMarineCollection.getCollection().removeIf(spMar -> spMar.getID().equals(id))) {
+            if (spaceMarineCollection.removeIf(spMar -> spMar.getID().equals(id))) {
                 ioManager.println("Space Marine has been successfully deleted.");
                 return true;
             } else {

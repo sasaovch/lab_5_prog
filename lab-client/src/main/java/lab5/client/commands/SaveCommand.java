@@ -1,6 +1,7 @@
 package lab5.client.commands;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import lab5.client.utility.IOManager;
@@ -32,19 +33,24 @@ public class SaveCommand extends Command {
      */
     @Override
     public boolean run(String str) throws IOException {
-        if (!str.isEmpty()) {
-            ioManager.printerr("Incorrect input. Right: '" + name + "'.");
+        try {
+            if (!str.isEmpty()) {
+                ioManager.printerr("Incorrect input. Right: '" + name + "'.");
+                return false;
+            }
+            if (!file.exists()) {
+                ioManager.printerr("File isn't exist.");
+                return false;
+            }
+            if (pars.serialize(spaceMarineCollection, file)) {
+                ioManager.println("The collection has been saved.");
+            } else {
+                ioManager.println("The collection hasn't been saved.");
+            }
+            return true;
+        } catch (FileNotFoundException e) {
+            ioManager.printerr("File isn't exist or invalid user rights.");
             return false;
         }
-        if (!file.exists()) {
-            ioManager.printerr("File isn't exist.");
-            return false;
-        }
-        if (pars.serialize(spaceMarineCollection, file)) {
-            ioManager.println("The collection has been saved.");
-        } else {
-            ioManager.println("The collection hasn't been saved.");
-        }
-        return true;
     }
 }

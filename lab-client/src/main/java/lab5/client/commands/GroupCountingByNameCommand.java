@@ -2,7 +2,6 @@ package lab5.client.commands;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import lab5.client.data.SpaceMarine;
 import lab5.client.utility.IOManager;
@@ -36,12 +35,8 @@ public class GroupCountingByNameCommand extends Command {
                 ioManager.println("The collection is empty.");
                 return true;
             }
-            HashMap<String, Integer> outputMap = new HashMap<>();
-            for (SpaceMarine spaceMarine : spaceMarineCollection.getCollection()) {
-                String nameSpaceMarine = spaceMarine.getName();
-                outputMap.compute(nameSpaceMarine, (key, val) -> (Objects.equals(val, null) ? 1: val + 1));
-            }
-            for (Map.Entry<String, Integer> entry : outputMap.entrySet()) {
+            HashMap<String, Integer> outHashMap = spaceMarineCollection.groupCountingByField(SpaceMarine::getName);
+            for (Map.Entry<String, Integer> entry : outHashMap.entrySet()) {
                 ioManager.println("Name: " + entry.getKey() + ". Number of letter: " + entry.getValue());
             }
             return true;

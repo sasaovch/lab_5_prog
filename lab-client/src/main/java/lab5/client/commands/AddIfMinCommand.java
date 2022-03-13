@@ -39,23 +39,7 @@ public class AddIfMinCommand extends Command {
             return false;
         }
         SpaceMarine newSpaceMarine = asker.askMarine();
-        SpaceMarine minSpaceMarine = null;
-        if (spaceMarineCollection.getCollection().size() == 0) {
-            spaceMarineCollection.addElement(newSpaceMarine);
-            ioManager.println(newSpaceMarine.getName() + "has been successfully added.");
-            return true;
-        }
-        for (SpaceMarine thatSpaceMarine : spaceMarineCollection.getCollection()) {
-            if (minSpaceMarine == null) {
-                minSpaceMarine = thatSpaceMarine;
-                continue;
-            }
-            if (thatSpaceMarine.compareTo(minSpaceMarine) < 0) {
-                minSpaceMarine = thatSpaceMarine;
-            }
-        }
-        if (newSpaceMarine.compareTo(minSpaceMarine) < 0) {
-            spaceMarineCollection.addElement(newSpaceMarine);
+        if (spaceMarineCollection.addIfMin(newSpaceMarine)) {
             ioManager.println(newSpaceMarine.getName() + "has been successfully added.");
         } else {
             ioManager.println("Element is bigger than minimal.");

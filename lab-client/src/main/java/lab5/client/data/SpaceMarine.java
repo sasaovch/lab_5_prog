@@ -19,7 +19,6 @@ public class SpaceMarine implements Comparable<SpaceMarine> {
     private Boolean loyal; //Поле может быть null
     private AstartesCategory category; //Поле не может быть null
     private Chapter chapter; //Поле может быть null
-    private static Long count = (long) 0;
 
     public SpaceMarine(String name, Long id, Coordinates coordinates, LocalDateTime time, Integer health, Integer heartCount, Boolean loyal, AstartesCategory category, Chapter chapter) throws IncorrectData {
         setID(id);
@@ -33,7 +32,21 @@ public class SpaceMarine implements Comparable<SpaceMarine> {
         setChapter(chapter);
     }
 
-    public SpaceMarine() {}
+    public SpaceMarine(String name, Coordinates coordinates, LocalDateTime time, Integer health, Integer heartCount, Boolean loyal, AstartesCategory category, Chapter chapter) throws IncorrectData {
+        setName(name);
+        setCoordinates(coordinates);
+        setTime(time);
+        setHealth(health);
+        setHeartCount(heartCount);
+        setLoyal(loyal);
+        setCategory(category);
+        setChapter(chapter);
+        
+    }
+
+    public SpaceMarine() {
+        id = 1L;
+    }
 
     /**
      * @return Category of the Marine.
@@ -119,9 +132,6 @@ public class SpaceMarine implements Comparable<SpaceMarine> {
         if ((id == null) || (id <= 0)) {
             throw new IncorrectData();
         }
-        if (id > count) {
-            count = id;
-        }
         this.id = id;
     }
 
@@ -205,10 +215,10 @@ public class SpaceMarine implements Comparable<SpaceMarine> {
      * Generate ID of Marine.
      * @return ID of Marine.
      */
-    public static Long generateNextId() {
-        count += 1;
-        return count;
-    }
+    // public static Long generateNextId() {
+    //     count += 1;
+    //     return count;
+    // }
 
     @Override
     public int hashCode() {
@@ -225,15 +235,14 @@ public class SpaceMarine implements Comparable<SpaceMarine> {
 
     @Override
     public int compareTo(SpaceMarine o) {
-        int different = health - o.getHealth();
-        if (different == 0) {
-            long dif = id - o.getID();
-            if (dif < 0) {
-                return -1;
-            } else {
-                return 1;
+        int diffHealth = health - o.getHealth();
+        if (diffHealth == 0) {
+            int diffHearC = heartCount - o.getHeartCount();
+            if (diffHearC == 0) {
+                return name.length() - o.getName().length();
             }
+            return diffHearC;
         }
-        return different;
+        return diffHealth;
     }
 }
