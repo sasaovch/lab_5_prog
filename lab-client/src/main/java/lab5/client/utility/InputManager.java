@@ -1,7 +1,6 @@
 package lab5.client.utility;
 
 import java.io.IOException;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import lab5.client.commands.CommandManager;
@@ -28,7 +27,7 @@ public class InputManager {
     }
 
     /**
-     * @return statusInput of input: true - console-mode, false - file-mode.
+     * @return statusInput of input: true - run, false - stop.
      */
     public Boolean getStatusFile() {
         return statusFile;
@@ -36,12 +35,11 @@ public class InputManager {
 
     /**
      * Mode for catching commands from user input.
-     * @throws IOException
-     * @throws NoSuchElementException
-     * @throws IncorrectDataOfFileException
-     * @throws IncorrectData
+     * @throws IOException When something with file went wrong.
+     * @throws IncorrectDataOfFileException When data in file isn't correct.
+     * @throws IncorrectData 
      */
-    public void run() throws IOException, NoSuchElementException, IncorrectDataOfFileException, IncorrectData {
+    public void run() throws IOException, IncorrectDataOfFileException, IncorrectData {
         String name, line;
         String[] command = new String[3];
         boolean resultExecute;
@@ -98,10 +96,16 @@ public class InputManager {
         statusInput = false;
     }
 
+    /**
+     * Turn on file-mode.
+     */
     public void turnOnFile(){
         statusFile = true;
     }
 
+    /**
+     * Turn off file-mode.
+     */
     public void turnOffFile(){
         statusFile = false;
     }

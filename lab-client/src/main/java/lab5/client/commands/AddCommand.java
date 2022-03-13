@@ -29,9 +29,9 @@ public class AddCommand extends Command {
      * Executes the command.
      * @return Command exit status.
      * @throws IOException When something with file went wrong.
-     * @throws IncorrectDataOfFileException When in file data isn't correct.
-     * @throws IncorrectData
-     * 
+     * @throws IncorrectDataOfFileException When data in file isn't correct.
+     * @throws IncorrectData When data for element is incorrect.
+     * @return Command exit status.
      */
     @Override
     public boolean run(String str) throws IOException, IncorrectDataOfFileException, IncorrectData{

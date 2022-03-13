@@ -20,8 +20,6 @@ public class CountByLoyalCommand extends Command {
     /**
      * Executes the command.
      * @return Command exit status.
-     * @throws SecurityException
-     * @throws NoSuchFieldException
      */
     @Override
     public boolean run(String strLoyal) {

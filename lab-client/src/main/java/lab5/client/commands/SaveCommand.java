@@ -29,17 +29,13 @@ public class SaveCommand extends Command {
     /**
      * Executes the command.
      * @return Command exit status.
-     * @throws IOException
+     * @throws IOException  When something with file went wrong.
      */
     @Override
     public boolean run(String str) throws IOException {
         try {
             if (!str.isEmpty()) {
                 ioManager.printerr("Incorrect input. Right: '" + name + "'.");
-                return false;
-            }
-            if (!file.exists()) {
-                ioManager.printerr("File isn't exist.");
                 return false;
             }
             if (pars.serialize(spaceMarineCollection, file)) {

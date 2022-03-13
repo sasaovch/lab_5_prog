@@ -20,23 +20,18 @@ import lab5.client.exceptions.IncorrectData;
  * Class operates the collection itself.
  */
 public class SpaceMarineCollection {
-    private HashSet<SpaceMarine> spaceMarineSet;
-    private LocalDateTime initializationTime;
-    private TreeSet<Long> usedID;
+    private final HashSet<SpaceMarine> spaceMarineSet;
+    private final LocalDateTime initializationTime;
+    private final TreeSet<Long> usedID;
 
-    /**
-     * @param set
-     */
-    public SpaceMarineCollection(HashSet<SpaceMarine> set){
-        spaceMarineSet = set;
+    public SpaceMarineCollection(){
+        spaceMarineSet = new HashSet<>();
         initializationTime = LocalDateTime.now();
         usedID = new TreeSet<>();
     }
 
-    /**
-     */
-    public SpaceMarineCollection(){
-        spaceMarineSet = new HashSet<>();
+    public SpaceMarineCollection(HashSet<SpaceMarine> spaceMarineSet){
+        this.spaceMarineSet = spaceMarineSet;
         initializationTime = LocalDateTime.now();
         usedID = new TreeSet<>();
     }
@@ -44,36 +39,47 @@ public class SpaceMarineCollection {
     /**
      * Adds a new marine to collection.
      * @param element A Marine to add.
-     * @throws IncorrectData
+     * @throws IncorrectData Never throw.
      */
     public boolean addElement(SpaceMarine element) {
-        if (Objects.equals(element.getID(), null)) {
-            if (usedID.isEmpty()) {
-                try {
+        try {
+            if (Objects.equals(element.getID(), null)) {
+                if (usedID.isEmpty()) {
                     element.setID(1L);
                     usedID.add(1L);
-                } catch (IncorrectData e) {
-                    e.printStackTrace(); // never throw
-                }
-            } else {
-                try {
+                } else {
                     element.setID(usedID.last() + 1);
                     usedID.add(usedID.last() + 1);
-                } catch (IncorrectData e) {
-                    e.printStackTrace(); // never throw
                 }
-            }
-        } else if (usedID.contains(element.getID())) {
-            try {
+            } else if (usedID.contains(element.getID())) {
                 element.setID(usedID.last() + 1);
                 usedID.add(usedID.last() + 1);
-            } catch (IncorrectData e) {
-                e.printStackTrace(); // never throw
+            } else {
+                usedID.add(element.getID());
             }
-        } else {
-            usedID.add(element.getID());
+        } catch (IncorrectData e) {
+            e.printStackTrace(); // never throw
         }
         return spaceMarineSet.add(element);
+    }
+
+    /**
+     * Adds a new marine to collection if it lower than all elements in set.
+     * @param element A Marine to add.
+     */
+    public boolean addIfMin(SpaceMarine addSpaceMarine) {
+        if (spaceMarineSet.size() == 0) {
+            addElement(addSpaceMarine);
+            return true;
+        } else {
+            SpaceMarine minSpaceMarine = spaceMarineSet.stream().min((o1, o2) -> o1.compareTo(o2)).orElse(new SpaceMarine());
+            if (addSpaceMarine.compareTo(minSpaceMarine) < 0) {
+                addElement(addSpaceMarine);
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     /**
@@ -83,6 +89,21 @@ public class SpaceMarineCollection {
     public boolean removeElement(SpaceMarine element){
         usedID.remove(element.getID());
         return spaceMarineSet.remove(element);
+    }
+
+    /**
+     * Deletes all elements that match the condition 
+     * @param condition Condition to remove.
+     */
+    public boolean removeIf(Predicate<SpaceMarine> condition) {
+        Set<SpaceMarine> removeSet = spaceMarineSet.stream().filter(condition).collect(Collectors.toSet());
+        if (removeSet.isEmpty()) {
+            return false;
+        }
+        spaceMarineSet.removeAll(removeSet);
+        usedID.clear();
+        usedID.addAll(removeSet.stream().map(SpaceMarine::getID).collect(Collectors.toSet()));
+        return true;
     }
 
     /**
@@ -100,18 +121,25 @@ public class SpaceMarineCollection {
     }
 
     /**
+     * @return Marine Collection.
+     */
+    public HashSet<SpaceMarine> getCollection(){
+        return spaceMarineSet;
+    }
+
+    /**
+     * @return last id which is used in set.
+     */
+    public Long getLastId(){
+        return usedID.last();
+    }
+
+    /**
      * Clears the collection.
      */
     public void clearCollection(){
         usedID.clear();
         spaceMarineSet.clear();
-    }
-
-    /**
-     * @return Marine Collection.
-     */
-    public HashSet<SpaceMarine> getCollection(){
-        return spaceMarineSet;
     }
 
     /**
@@ -123,33 +151,13 @@ public class SpaceMarineCollection {
         return list;
     }
 
-    public Long getLastId(){
-        return usedID.last();
-    }
-
-    public boolean addIfMin(SpaceMarine addSpaceMarine) {
-        SpaceMarine minSpaceMarine = null;
-        if (spaceMarineSet.size() == 0) {
-            addElement(addSpaceMarine);
-            return true;
-        }
-        for (SpaceMarine thatSpaceMarine : spaceMarineSet) {
-            if (minSpaceMarine == null) {
-                minSpaceMarine = thatSpaceMarine;
-                continue;
-            }
-            if (thatSpaceMarine.compareTo(minSpaceMarine) < 0) {
-                minSpaceMarine = thatSpaceMarine;
-            }
-        }
-        if (addSpaceMarine.compareTo(minSpaceMarine) < 0) {
-            addElement(addSpaceMarine);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
+    /**
+     * Count element which has the same value of field.
+     * @param <R> Type of field.
+     * @param getter Method for getting value of field.
+     * @param value Value of field.
+     * @return Number of elements in set with the same value.
+     */
     public <R> int countBySomeThing(Function<SpaceMarine, R> getter, R value) {
         int counter = 0;
         for (SpaceMarine thatSpaceMarine : spaceMarineSet) {
@@ -160,6 +168,11 @@ public class SpaceMarineCollection {
         return counter;
     }
 
+    /**
+     * @param <R> Type of field.
+     * @param getter Method for getting value of field.
+     * @return map: key - value of field, value - number of elements in set with the same value of key.
+     */
     public <R> HashMap<String, Integer> groupCountingByField(Function<SpaceMarine, R> getter) {
         HashMap<String, Integer> outputMap = new HashMap<>();
         for (SpaceMarine spaceMarine : spaceMarineSet) {
@@ -168,17 +181,12 @@ public class SpaceMarineCollection {
         return outputMap;
     }
 
-    public boolean removeIf(Predicate<SpaceMarine> condition) {
-        Set<SpaceMarine> removeSet = spaceMarineSet.stream().filter(condition).collect(Collectors.toSet());
-        if (removeSet.isEmpty()) {
-            return false;
-        }
-        spaceMarineSet.removeAll(removeSet);
-        usedID.clear();
-        usedID.addAll(removeSet.stream().map(SpaceMarine::getID).collect(Collectors.toSet()));
-        return true;
-    }
 
+    /**
+     * Find element in set by ID.
+     * @param id Id of element.
+     * @return Element if it exits, null if element doesn't exit.
+     */
     public SpaceMarine findByID(Long id) {
         for (SpaceMarine spaceMarine : spaceMarineSet) {
             if (id.equals(spaceMarine.getID())) {
@@ -188,7 +196,17 @@ public class SpaceMarineCollection {
         return null;
     }
 
+    /**
+     * Update element.
+     * @param changeMarine Element is changed.
+     * @param newMarine New element
+     */
     public boolean updateSpaceMarine(SpaceMarine changeMarine, SpaceMarine newMarine) {
+        try {
+            newMarine.setID(changeMarine.getID());
+        } catch (IncorrectData e) {
+            e.printStackTrace();
+        }
         return removeElement(changeMarine) && addElement(newMarine); 
     }
 }

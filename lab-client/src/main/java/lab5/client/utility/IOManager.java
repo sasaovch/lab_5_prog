@@ -60,6 +60,11 @@ public class IOManager {
         return reader.readLine();
     }
 
+    /**
+     * Read file.
+     * @return lines of file.
+     * @throws IOException If something goes wrong with file.
+     */
     public String readfile(File file) throws FileNotFoundException, IOException{
         StringBuilder strData = new StringBuilder();
         String line;
@@ -83,6 +88,9 @@ public class IOManager {
         reader.close();
     }
 
+    /**
+     * Print prompt for input.
+     */
     public void prompt(){
         writer.printf("%s", prompter);
     }

@@ -2,11 +2,9 @@ package lab5.client;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import com.google.gson.JsonSyntaxException;
@@ -23,16 +21,11 @@ public final class Client {
     /**
      * Main application class. Creates all instances and runs the program.
      * @author Ovcharenko Aleksandr.
-     * @throws IOException
-     * @throws FileNotFoundException
-     * @throws IllegalArgumentException
-     * @throws JsonSyntaxException
-     * @throws IncorrectDataOfFileException
-     * @throws UnknownValueOfLoyal
-     * @throws NoSuchElementException
-     * @throws IncorrectData
+     * @throws IOException When something with file went wrong.
+     * @throws IncorrectDataOfFileException Never throw.
+     * @throws IncorrectData Never throw.
      */
-    public static void main(String[] args) throws JsonSyntaxException, NoSuchElementException, IncorrectDataOfFileException, IncorrectData {
+    public static void main(String[] args) throws JsonSyntaxException, IncorrectData, IncorrectDataOfFileException {
         // String filePath = System.getenv("filePath");
         // if (Objects.equals(filePath, null)){
         //     System.out.println("There is no such variable \"filePath\"");

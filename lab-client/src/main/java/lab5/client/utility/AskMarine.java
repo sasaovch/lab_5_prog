@@ -28,9 +28,8 @@ public class AskMarine {
     /**
      * Asks a user the Marine's name.
      * @return Marine's name.
-     * @throws Incorrectlab5.client.dataOfFileException If script is running and something goes wrong.
      * @throws IOException If something goes wrong with reading file.
-     * @throws IncorrectDataOfFileException
+     * @throws IncorrectDataOfFileException When data in file isn't correct.
      */
     public String askName() throws IOException, IncorrectDataOfFileException {
         String name;
@@ -53,8 +52,8 @@ public class AskMarine {
      * @return Marine's coordinates.
      * @throws Incorrectlab5.client.dataOfFileException If script is running and something goes wrong.
      * @throws IOException If something goes wrong with reading file.
-     * @throws IncorrectDataOfFileException
-     * @throws IncorrectData
+     * @throws IncorrectDataOfFileException When data in file isn't correct.
+     * @throws IncorrectData When data for element is incorrect.
      */
     public Coordinates askCoordinates() throws IOException, IncorrectDataOfFileException, IncorrectData {
         double coordinateX = 0;
@@ -85,9 +84,8 @@ public class AskMarine {
     /**
      * Asks a user the Marine's health.
      * @return Marine's health.
-     * @throws Incorrectlab5.client.dataOfFileException If script is running and something goes wrong.
      * @throws IOException If something goes wrong with reading file.
-     * @throws IncorrectDataOfFileException
+     * @throws IncorrectDataOfFileException When data in file isn't correct.
      */
     public Integer askHealth() throws IOException, IncorrectDataOfFileException{
         Integer health;
@@ -113,9 +111,8 @@ public class AskMarine {
     /**
      * Asks a user the Marine's heart count.
      * @return Marine's heart count.
-     * @throws Incorrectlab5.client.dataOfFileException If script is running and something goes wrong.
      * @throws IOException If something goes wrong with reading file.
-     * @throws IncorrectDataOfFileException
+     * @throws IncorrectDataOfFileException When data in file isn't correct.
      */
     public Integer askHeartCount() throws IOException, IncorrectDataOfFileException{
         Integer heartCount;
@@ -141,9 +138,8 @@ public class AskMarine {
     /**
      * Asks a user the Marine's loyal.
      * @return Marine's loyal.
-     * @throws Incorrectlab5.client.dataOfFileException If script is running and something goes wrong.
      * @throws IOException If something goes wrong with reading file.
-     * @throws IncorrectDataOfFileException
+     * @throws IncorrectDataOfFileException When data in file isn't correct.
      */
     public Boolean askLoyal() throws IOException, IncorrectDataOfFileException {
         Boolean loyal;
@@ -176,9 +172,8 @@ public class AskMarine {
     /**
      * Asks a user the Marine's category.
      * @return Marine's category.
-     * @throws Incorrectlab5.client.dataOfFileException If script is running and something goes wrong.
      * @throws IOException If something goes wrong with reading file.
-     * @throws IncorrectDataOfFileException
+     * @throws IncorrectDataOfFileException When data in file isn't correct.
      */
     public AstartesCategory askCategory() throws IOException, IncorrectDataOfFileException {
         AstartesCategory category;
@@ -203,10 +198,9 @@ public class AskMarine {
     /**
      * Asks a user the Marine's Chapter.
      * @return Marine's Chapter.
-     * @throws Incorrectlab5.client.dataOfFileException If script is running and something goes wrong.
      * @throws IOException If something goes wrong with reading file.
-     * @throws IncorrectDataOfFileException
-     * @throws IncorrectData
+     * @throws IncorrectDataOfFileException When data in file isn't correct.
+     * @throws IncorrectData When data for element is incorrect.
      */
     public Chapter askChapter() throws IOException, IncorrectDataOfFileException, IncorrectData {
         String name, parentLegion, world;
@@ -244,26 +238,12 @@ public class AskMarine {
         return chapter;
     }
 
-    // /**
-    //  * Asks a user the Marine's ID.
-    //  * @return Marine's ID.
-    //  * @throws IOException If something goes wrong with reading file.
-    //  */
-    // public Long askId() throws IOException { 
-    //     Long id = null;
-    //         id = asker(Long::parseLong, arg -> true, "Enter ID - long", 
-    //         "Incorrect input: ID is long.", 
-    //         false);
-    //         return id;
-    // }
-
     /**
      * Asks a user the Marine.
      * @return Marine.
-     * @throws Incorrectlab5.client.dataOfFileException If script is running and something goes wrong.
      * @throws IOException If something goes wrong with reading file.
-     * @throws IncorrectDataOfFileException
-     * @throws IncorrectData
+     * @throws IncorrectDataOfFileException When data in file isn't correct.
+     * @throws IncorrectData When data for element is incorrect.
      */
     public  SpaceMarine askMarine() throws IOException, IncorrectDataOfFileException, IncorrectData {
         String name = askName();
@@ -276,6 +256,17 @@ public class AskMarine {
         return new SpaceMarine(name, coordinates, LocalDateTime.now(), health, heartCount, loyal, category, chapter);
     }
 
+    /**
+     * Parsing for input.
+     * @param <T> Type for retrurn element.
+     * @param function Function for parsing.
+     * @param predicate Condition for element.
+     * @param askField Message for input.
+     * @param wrongValue Message if value isn't correct.
+     * @param nullable True if element can be null.
+     * @return Element.
+     * @throws IOException When something with file went wrong.
+     */
     public <T> T asker(Function<String, T> function,
                        Predicate<T> predicate,  
                        String askField, 

@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.NoSuchElementException;
 import java.util.Stack;
 
 import lab5.client.exceptions.IncorrectData;
@@ -29,15 +28,14 @@ public class ExecuteScriptCommand extends Command {
     }
 
     /**
-     * Executes the command, but partially.
+     * Executes the command.
      * @return Command exit status.
-     * @throws IncorrectDataOfFileException
-     * @throws NoSuchElementException
-     * @throws IOException
-     * @throws IncorrectData
+     * @throws IOException When something with file went wrong.
+     * @throws IncorrectData When data for element is incorrest.
+     * @return Command exit status.
      */
     @Override
-    public boolean run(String filename) throws IOException, NoSuchElementException, IncorrectData  {
+    public boolean run(String filename) throws IOException, IncorrectData  {
         File file = new File(filename);
         try (BufferedReader newReader = new BufferedReader(new FileReader(file))) { 
             if (file.exists() && !currentFiles.contains(file)) {

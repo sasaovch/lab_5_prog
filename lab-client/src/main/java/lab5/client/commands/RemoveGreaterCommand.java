@@ -27,7 +27,7 @@ public class RemoveGreaterCommand extends Command {
      * Executes the command.
      * @return Command exit status.
      * @throws IOException When something with file went wrong.
-     * @throws IncorrectDataOfFileException When in file data isn't correct.
+     * @throws IncorrectDataOfFileException When data in file isn't correct.
      */
     @Override
     public boolean run(String str) throws IOException, IncorrectDataOfFileException {
