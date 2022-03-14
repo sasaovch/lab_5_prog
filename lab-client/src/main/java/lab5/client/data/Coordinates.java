@@ -58,7 +58,19 @@ public class Coordinates {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Coordinates compCoor = (Coordinates) object;
+        return (Objects.equals(x, compCoor.getX())) && (Objects.equals(y, compCoor.getY()));
     }
 }

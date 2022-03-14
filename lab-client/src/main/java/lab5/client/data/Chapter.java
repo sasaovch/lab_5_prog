@@ -104,4 +104,17 @@ public class Chapter {
     public int hashCode(){
         return Objects.hash(name, parentLegion, marinesCount, world);
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Chapter compChap = (Chapter) object;
+        return (Objects.equals(name, compChap.getName())) && (Objects.equals(parentLegion, compChap.getParentLegion())) &&
+                (Objects.equals(marinesCount, compChap.getMarinesCount())) && (Objects.equals(world, compChap.getWorld()));
+    }
 }

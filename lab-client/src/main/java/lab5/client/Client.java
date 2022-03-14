@@ -26,18 +26,18 @@ public final class Client {
      * @throws IncorrectData Never throw.
      */
     public static void main(String[] args) throws JsonSyntaxException, IncorrectData, IncorrectDataOfFileException {
-        // String filePath = System.getenv("filePath");
-        // if (Objects.equals(filePath, null)){
-        //     System.out.println("There is no such variable \"filePath\"");
-        //     return;
-        // }        
+        String filePath = System.getenv("filePath");
+        if (Objects.equals(filePath, null)){
+            System.out.println("There is no such variable \"filePath\"");
+            return;
+        }        
         ParsingJSON pars = new ParsingJSON();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter writer = new PrintWriter(System.out, true);
         IOManager ioManager = new IOManager(reader, writer, "$");
         ioManager.prompt();
         try {
-            File file = new File(ioManager.readLine());
+            File file = new File(filePath);
             SpaceMarineCollection collection = pars.deSerialize(ioManager.readfile(file));
             if (Objects.equals(collection, null)) {
                 ioManager.printerr("Incorrect data in file for parsing.");

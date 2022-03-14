@@ -245,4 +245,19 @@ public class SpaceMarine implements Comparable<SpaceMarine> {
         }
         return diffHealth;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        SpaceMarine compSpMar = (SpaceMarine) object;
+        return (name.equals(compSpMar.getName())) && (coordinates.equals(compSpMar.getCoordinates())) && 
+                (health.equals(compSpMar.getHealth())) && (heartCount.equals(compSpMar.getHeartCount())) &&
+                (Objects.equals(loyal, compSpMar.getLoyal())) && (category.equals(compSpMar.getCategory())) &&
+                (Objects.equals(chapter, compSpMar.getChapter()));
+    }
 }
