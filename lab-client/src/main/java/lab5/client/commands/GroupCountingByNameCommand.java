@@ -37,7 +37,7 @@ public class GroupCountingByNameCommand extends Command {
             }
             HashMap<String, Integer> outHashMap = spaceMarineCollection.groupCountingByField(SpaceMarine::getName);
             for (Map.Entry<String, Integer> entry : outHashMap.entrySet()) {
-                ioManager.println("Name: " + entry.getKey() + ". Number of letter: " + entry.getValue());
+                ioManager.println("Name: " + entry.getKey() + ". Number of elements: " + entry.getValue());
             }
             return true;
     }
