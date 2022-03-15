@@ -64,6 +64,8 @@ public final class Client {
             inputManager.run();
         } catch (IOException e) {
             ioManager.printerr("File isn't exist or invalid user rights.");
+        } catch (JsonSyntaxException e) {
+            ioManager.printerr("Data in file isn't correct");
         }
     }
 }
