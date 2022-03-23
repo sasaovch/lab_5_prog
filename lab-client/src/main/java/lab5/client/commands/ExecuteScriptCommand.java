@@ -59,6 +59,8 @@ public class ExecuteScriptCommand extends Command {
         } catch (IncorrectDataOfFileException | NullPointerException e) {
             ioManager.printerr("Incorrect data of file.");
             return false;
+        } catch (IOException e) {
+            ioManager.printerr("File isn't exist or invalid user rights.");
         }
         ioManager.println("------------------------------------------");
         ioManager.println("Finished to execute script: " + file.getName());
