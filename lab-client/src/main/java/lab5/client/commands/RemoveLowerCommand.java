@@ -36,7 +36,14 @@ public class RemoveLowerCommand extends Command {
             return false;
         }
         Integer specifiedHealth = asker.askHealth();
-        if (spaceMarineCollection.removeIf(spMar -> spMar.getHealth() < specifiedHealth)) {
+        Integer specifiedHeart = asker.askHeartCount();
+        if (spaceMarineCollection.removeIf(spMar -> 
+            {
+                if (spMar.getHealth() < specifiedHealth) {
+                    return true;
+                }
+                return (spMar.getHealth() == specifiedHealth) && (spMar.getHeartCount() < specifiedHeart);
+            })) {
             ioManager.println("All items have been successfully deleted.");
         } else {
             ioManager.println("No element has been deleted.");

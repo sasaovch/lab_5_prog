@@ -36,13 +36,13 @@ public class RemoveGreaterCommand extends Command {
             return false;
         }
         Integer specifiedHealth = asker.askHealth();
-        Integer specifiedHeart = asker.askHeart();
+        Integer specifiedHeart = asker.askHeartCount();
         if (spaceMarineCollection.removeIf(spMar -> 
             {
                 if (spMar.getHealth() > specifiedHealth) {
                     return true;
                 }
-                return (spMar.getHealth() == specifiedHealth) && (spMar.getHeart() > specifiedHeart);
+                return (spMar.getHealth() == specifiedHealth) && (spMar.getHeartCount() > specifiedHeart);
             })) {
             ioManager.println("All items have been successfully deleted.");
         } else {
