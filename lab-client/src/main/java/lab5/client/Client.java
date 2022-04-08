@@ -29,7 +29,7 @@ public final class Client {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter writer = new PrintWriter(System.out, true);
         IOManager ioManager = new IOManager(reader, writer, "$");
-        String filePath = System.getenv("filePath");
+        String filePath = "pars.json" ;//System.getenv("filePath");
         if (Objects.equals(filePath, null)){
             ioManager.printerr("There is no such variable \"filePath\"");
             return;
